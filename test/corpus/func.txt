@@ -1,0 +1,517 @@
+================================================================================
+Function prototype
+================================================================================
+
+func.func @abort()
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens))))))
+
+================================================================================
+Simple function using func, arith dialects
+================================================================================
+
+func.func @test_addi(%arg0 : i64, %arg1 : i64) -> i64 {
+  %0 = arith.addi %arg0, %arg1 : i64
+  return %0 : i64
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (integer_type))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (integer_type))))))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (non_function_type
+              (builtin_type
+                (integer_type)))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (op_result_list
+                    (op_result
+                      (value_id
+                        (suffix_id))))
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_full_prefix)
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (integer_type)))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (integer_type)))))))))))))))))
+
+================================================================================
+Function with multiple return values
+================================================================================
+
+func.func @count(%x: i64) -> (i64, i64) {
+  return %x, %x: i64, i64
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (integer_type))))))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (type_list_parens
+              (type
+                (builtin_type
+                  (integer_type)))
+              (type
+                (builtin_type
+                  (integer_type))))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_full_prefix)
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (integer_type)))
+                            (type
+                              (builtin_type
+                                (integer_type)))))))))))))))))
+
+================================================================================
+Variadic function
+================================================================================
+
+llvm.func @variadic(...)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens))))))
+
+================================================================================
+Variadic function with other arguments
+================================================================================
+
+llvm.func @variadic_args(i32, i32, ...)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens
+            (integer_type)
+            (integer_type)))))))
+
+================================================================================
+Generic operation in a module, with attributes
+================================================================================
+
+module {
+  "llvm.func"() ({
+  }) {sym_name = "foo", function_type = !llvm.func<void ()>} : () -> ()
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id))
+      (custom_op_body
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (generic_operation
+                    (string_literal)
+                    (region_list
+                      (region))
+                    (dictionary_attribute
+                      (attribute_entry
+                        (attr_key
+                          (bare_id))
+                        (attribute_value
+                          (builtin_attribute
+                            (string_literal))))
+                      (attribute_entry
+                        (attr_key
+                          (bare_id))
+                        (attribute_value
+                          (builtin_attribute
+                            (type_attribute
+                              (non_function_type
+                                (dialect_type
+                                  (bare_id)
+                                  (bare_id)
+                                  (angle_body
+                                    (angle_body_content
+                                      (bare_id))))))))))
+                    (function_type
+                      (type_list_parens)
+                      (type_list_parens))))))))))))
+
+================================================================================
+Generic operation with successor and region
+================================================================================
+
+func.func @terminator_with_regions() {
+  "region"()[^bb2] ({}) : () -> ()
+^bb2:
+  return
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (generic_operation
+                    (string_literal)
+                    (successor_list
+                      (caret_id
+                        (suffix_id)))
+                    (region_list
+                      (region))
+                    (function_type
+                      (type_list_parens)
+                      (type_list_parens)))))
+              (block
+                (block_label
+                  (caret_id
+                    (suffix_id)))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))))))))))))
+
+================================================================================
+Function with private specifier, and func.call
+================================================================================
+
+func.func private @source() -> tensor<f32>
+func.func @call_source() -> tensor<f32> {
+  %0 = call @source() : () -> tensor<f32>
+  return %0 : tensor<f32>
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))))
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens))
+        (custom_op_safe_prefix
+          (return_type_annotation
+            (non_function_type
+              (builtin_type
+                (tensor_type
+                  (non_function_type
+                    (builtin_type
+                      (float_type)))))))))))
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (non_function_type
+              (builtin_type
+                (tensor_type
+                  (non_function_type
+                    (builtin_type
+                      (float_type))))))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (op_result_list
+                    (op_result
+                      (value_id
+                        (suffix_id))))
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (symbol_ref_id
+                          (suffix_id)))
+                      (custom_op_full_prefix
+                        (custom_parens))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (function_type
+                                (type_list_parens)
+                                (type_list_no_parens
+                                  (type
+                                    (builtin_type
+                                      (tensor_type
+                                        (non_function_type
+                                          (builtin_type
+                                            (float_type)))))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (tensor_type
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type))))))))))))))))))))
+
+================================================================================
+Module with name
+================================================================================
+
+module @addmodule {
+  func.func @test_addi(%arg0 : i64, %arg1 : i64) -> i64 {
+    %0 = arith.addi %arg0, %arg1 : i64
+    return %0 : i64
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (symbol_ref_id
+                          (suffix_id)))
+                      (custom_op_full_prefix
+                        (custom_parens
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (integer_type))))
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (integer_type))))))
+                      (custom_op_full_prefix
+                        (return_type_annotation
+                          (non_function_type
+                            (builtin_type
+                              (integer_type)))))
+                      (custom_op_terminal
+                        (region
+                          (region_body
+                            (entry_block
+                              (operation
+                                (op_result_list
+                                  (op_result
+                                    (value_id
+                                      (suffix_id))))
+                                (custom_operation
+                                  (op_id
+                                    (bare_id)
+                                    (bare_id))
+                                  (custom_op_body
+                                    (custom_op_full_prefix
+                                      (value_use
+                                        (value_id
+                                          (suffix_id))))
+                                    (custom_op_full_prefix)
+                                    (custom_op_full_prefix
+                                      (value_use
+                                        (value_id
+                                          (suffix_id))))
+                                    (custom_op_terminal
+                                      (type_annotation
+                                        (type_list_no_parens
+                                          (type
+                                            (builtin_type
+                                              (integer_type)))))))))
+                              (operation
+                                (custom_operation
+                                  (op_id
+                                    (bare_id))
+                                  (custom_op_body
+                                    (custom_op_full_prefix
+                                      (value_use
+                                        (value_id
+                                          (suffix_id))))
+                                    (custom_op_terminal
+                                      (type_annotation
+                                        (type_list_no_parens
+                                          (type
+                                            (builtin_type
+                                              (integer_type))))))))))))))))))))))))
+

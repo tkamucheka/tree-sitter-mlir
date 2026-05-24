@@ -1,0 +1,624 @@
+================================================================================
+func.func with result attribute
+================================================================================
+
+func.func @example_fn_result() -> (f64 {dialectName.attrName = 0 : i64})
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens))
+        (custom_op_safe_prefix
+          (return_type_annotation
+            (type_list_parens
+              (type
+                (builtin_type
+                  (float_type)))
+              (dictionary_attribute
+                (attribute_entry
+                  (attr_key
+                    (bare_id)
+                    (bare_id))
+                  (attribute_value
+                    (builtin_attribute
+                      (integer_attribute
+                        (integer_literal)
+                        (integer_type)))))))))))))
+
+================================================================================
+func.func with argument attribute
+================================================================================
+
+func.func @example_fn_arg(%x: i32 {swift.self = unit})
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (integer_type)))
+              (dictionary_attribute
+                (attribute_entry
+                  (attr_key
+                    (bare_id)
+                    (bare_id))
+                  (attribute_value
+                    (builtin_attribute)))))))))))
+
+================================================================================
+strided attribute in memref
+================================================================================
+
+func.func @dot_view(%arg0: memref<?xf32, strided<[1], offset: ?>>,
+  %arg1: memref<?xf32, strided<[1], offset: ?>>, %arg2: memref<f32>) {
+  linalg.dot ins(%arg0, %arg1 : memref<?xf32, strided<[1], offset: ?>>,
+                                memref<?xf32, strided<[1], offset: ?>>)
+             outs(%arg2:  memref<f32>)
+  return
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (memref_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))
+                    (attribute_value
+                      (builtin_attribute
+                        (strided_layout
+                          (angle_body
+                            (angle_body_content
+                              (angle_body_content
+                                (integer_literal))
+                              (bare_id))))))))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (memref_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))
+                    (attribute_value
+                      (builtin_attribute
+                        (strided_layout
+                          (angle_body
+                            (angle_body_content
+                              (angle_body_content
+                                (integer_literal))
+                              (bare_id))))))))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (memref_type
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))))))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_safe_prefix
+                        (custom_parens
+                          (value_use
+                            (value_id
+                              (suffix_id)))
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (memref_type
+                                  (tensor_dim)
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type)))
+                                  (attribute_value
+                                    (builtin_attribute
+                                      (strided_layout
+                                        (angle_body
+                                          (angle_body_content
+                                            (angle_body_content
+                                              (integer_literal))
+                                            (bare_id))))))))))
+                          (memref_type
+                            (tensor_dim)
+                            (non_function_type
+                              (builtin_type
+                                (float_type)))
+                            (attribute_value
+                              (builtin_attribute
+                                (strided_layout
+                                  (angle_body
+                                    (angle_body_content
+                                      (angle_body_content
+                                        (integer_literal))
+                                      (bare_id))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_safe_prefix
+                        (custom_parens
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (memref_type
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))))))))))))
+
+================================================================================
+Generic function bracketed attributes
+================================================================================
+
+"llvm.func"() ({
+}) {sym_name = "qux", function_type = !llvm.func<void (ptr<i64>, i64)>,
+    arg_attrs = [{llvm.noalias}, {}], xxx = {yyy = 42}} : () -> ()
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (generic_operation
+      (string_literal)
+      (region_list
+        (region))
+      (dictionary_attribute
+        (attribute_entry
+          (attr_key
+            (bare_id))
+          (attribute_value
+            (builtin_attribute
+              (string_literal))))
+        (attribute_entry
+          (attr_key
+            (bare_id))
+          (attribute_value
+            (builtin_attribute
+              (type_attribute
+                (non_function_type
+                  (dialect_type
+                    (bare_id)
+                    (bare_id)
+                    (angle_body
+                      (angle_body_content
+                        (bare_id)
+                        (angle_body_content
+                          (bare_id)
+                          (angle_body
+                            (angle_body_content
+                              (integer_type)))
+                          (integer_type))))))))))
+        (attribute_entry
+          (attr_key
+            (bare_id))
+          (attribute_value
+            (builtin_attribute
+              (array_attribute
+                (attribute_value
+                  (builtin_attribute
+                    (dictionary_attribute
+                      (attribute_entry
+                        (attr_key
+                          (bare_id)
+                          (bare_id))))))
+                (attribute_value
+                  (builtin_attribute
+                    (dictionary_attribute)))))))
+        (attribute_entry
+          (attr_key
+            (bare_id))
+          (attribute_value
+            (builtin_attribute
+              (dictionary_attribute
+                (attribute_entry
+                  (attr_key
+                    (bare_id))
+                  (attribute_value
+                    (builtin_attribute
+                      (integer_attribute
+                        (integer_literal))))))))))
+      (function_type
+        (type_list_parens)
+        (type_list_parens)))))
+
+================================================================================
+linalg.generic with inline attributes
+================================================================================
+
+func.func @copy_view(%arg0: memref<?xf32, strided<[1], offset: ?>>,
+  %arg1: memref<?xf32, strided<[1], offset: ?>>) {
+  linalg.generic {
+    iterator_types = ["parallel"],
+    indexing_maps = [ affine_map<(i) -> (i)>, affine_map<(i) -> (i)>] }
+   ins(%arg0: memref<?xf32, strided<[1], offset: ?>>)
+   outs(%arg1: memref<?xf32, strided<[1], offset: ?>>) {
+    ^bb0(%a: f32, %b: f32):
+      linalg.yield %a : f32
+  }
+  return
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (memref_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))
+                    (attribute_value
+                      (builtin_attribute
+                        (strided_layout
+                          (angle_body
+                            (angle_body_content
+                              (angle_body_content
+                                (integer_literal))
+                              (bare_id))))))))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (memref_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))
+                    (attribute_value
+                      (builtin_attribute
+                        (strided_layout
+                          (angle_body
+                            (angle_body_content
+                              (angle_body_content
+                                (integer_literal))
+                              (bare_id))))))))))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))
+                    (custom_op_body
+                      (dictionary_attribute
+                        (attribute_entry
+                          (attr_key
+                            (bare_id))
+                          (attribute_value
+                            (builtin_attribute
+                              (array_attribute
+                                (attribute_value
+                                  (builtin_attribute
+                                    (string_literal)))))))
+                        (attribute_entry
+                          (attr_key
+                            (bare_id))
+                          (attribute_value
+                            (builtin_attribute
+                              (array_attribute
+                                (attribute_value
+                                  (builtin_attribute
+                                    (affine_map_attribute
+                                      (affine_expr_content))))
+                                (attribute_value
+                                  (builtin_attribute
+                                    (affine_map_attribute
+                                      (affine_expr_content))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_safe_prefix
+                        (custom_parens
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (memref_type
+                                  (tensor_dim)
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type)))
+                                  (attribute_value
+                                    (builtin_attribute
+                                      (strided_layout
+                                        (angle_body
+                                          (angle_body_content
+                                            (angle_body_content
+                                              (integer_literal))
+                                            (bare_id)))))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (custom_parens
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (memref_type
+                                  (tensor_dim)
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type)))
+                                  (attribute_value
+                                    (builtin_attribute
+                                      (strided_layout
+                                        (angle_body
+                                          (angle_body_content
+                                            (angle_body_content
+                                              (integer_literal))
+                                            (bare_id))))))))))))
+                      (custom_op_terminal
+                        (region
+                          (region_body
+                            (block
+                              (block_label
+                                (caret_id
+                                  (suffix_id))
+                                (block_arg_list
+                                  (value_id_and_type
+                                    (value_id
+                                      (suffix_id))
+                                    (type
+                                      (builtin_type
+                                        (float_type))))
+                                  (value_id_and_type
+                                    (value_id
+                                      (suffix_id))
+                                    (type
+                                      (builtin_type
+                                        (float_type))))))
+                              (operation
+                                (custom_operation
+                                  (op_id
+                                    (bare_id)
+                                    (bare_id))
+                                  (custom_op_body
+                                    (custom_op_full_prefix
+                                      (value_use
+                                        (value_id
+                                          (suffix_id))))
+                                    (custom_op_terminal
+                                      (type_annotation
+                                        (type_list_no_parens
+                                          (type
+                                            (builtin_type
+                                              (float_type))))))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))))))))))))
+
+================================================================================
+linalg.broadcast with inline attributes, without dictionary tokens
+================================================================================
+
+func.func @broadcast(%input: tensor<8x32xf32>,
+                     %init: tensor<8x16x32xf32>) -> tensor<8x16x32xf32> {
+  %bcast = linalg.broadcast
+      ins(%input:tensor<8x32xf32>)
+      outs(%init:tensor<8x16x32xf32>)
+      dimensions = [1]
+  func.return %bcast : tensor<8x16x32xf32>
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (tensor_dim)
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))))))))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (non_function_type
+              (builtin_type
+                (tensor_type
+                  (tensor_dim)
+                  (tensor_dim)
+                  (tensor_dim)
+                  (non_function_type
+                    (builtin_type
+                      (float_type))))))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (op_result_list
+                    (op_result
+                      (value_id
+                        (suffix_id))))
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_safe_prefix
+                        (custom_parens
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (tensor_type
+                                  (tensor_dim)
+                                  (tensor_dim)
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_safe_prefix
+                        (custom_parens
+                          (value_id_and_type
+                            (value_id
+                              (suffix_id))
+                            (type
+                              (builtin_type
+                                (tensor_type
+                                  (tensor_dim)
+                                  (tensor_dim)
+                                  (tensor_dim)
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type)))))))))
+                      (custom_op_safe_prefix
+                        (custom_op_kv
+                          (bare_id)
+                          (attribute_value
+                            (builtin_attribute
+                              (array_attribute
+                                (attribute_value
+                                  (builtin_attribute
+                                    (integer_attribute
+                                      (integer_literal))))))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (tensor_type
+                                  (tensor_dim)
+                                  (tensor_dim)
+                                  (tensor_dim)
+                                  (non_function_type
+                                    (builtin_type
+                                      (float_type))))))))))))))))))))
+

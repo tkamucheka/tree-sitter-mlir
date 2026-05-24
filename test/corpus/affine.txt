@@ -1,0 +1,198 @@
+================================================================================
+affine_map with indexing and sum
+================================================================================
+
+#inline_map_minmax_loop2 = affine_map<()[s0] -> (100, s0 + 1)>
+#map0 = affine_map<(i) -> ()>
+#bound_map1 = affine_map<(i, j)[s] -> (i + j + s)>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_alias_def
+    (bare_id)
+    (attribute_value
+      (builtin_attribute
+        (affine_map_attribute
+          (affine_expr_content)))))
+  (attribute_alias_def
+    (bare_id)
+    (attribute_value
+      (builtin_attribute
+        (affine_map_attribute
+          (affine_expr_content)))))
+  (attribute_alias_def
+    (bare_id)
+    (attribute_value
+      (builtin_attribute
+        (affine_map_attribute
+          (affine_expr_content))))))
+
+================================================================================
+affine_set expression
+================================================================================
+
+#set0 = affine_set<(i)[N, M] : (i >= 0, -i + N >= 0, N - 5 == 0, -i + M + 1 >= 0)>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_alias_def
+    (bare_id)
+    (attribute_value
+      (builtin_attribute
+        (affine_set_attribute
+          (affine_expr_content))))))
+
+================================================================================
+affine_map with complex affine expression
+================================================================================
+
+func.func @semiaffine_mod(%arg0: index, %arg1: index) -> index {
+  %a = affine.apply affine_map<(d0)[s0] ->((-((d0 floordiv s0) * s0) + s0 * s0) mod s0)> (%arg0)[%arg1]
+  return %a : index
+}
+
+func.func @semiaffine_floordiv(%arg0: index, %arg1: index) -> index {
+  %a = affine.apply affine_map<(d0)[s0] ->((-((d0 floordiv s0) * s0) + ((2 * s0) mod (3 * s0))) floordiv s0)> (%arg0)[%arg1]
+  return %a : index
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (index_type))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (index_type))))))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (non_function_type
+              (builtin_type
+                (index_type)))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (op_result_list
+                    (op_result
+                      (value_id
+                        (suffix_id))))
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (affine_map_attribute
+                          (affine_expr_content)))
+                      (custom_op_full_prefix
+                        (custom_parens
+                          (value_use
+                            (value_id
+                              (suffix_id)))))
+                      (custom_op_full_prefix
+                        (custom_brackets
+                          (value_use
+                            (value_id
+                              (suffix_id)))))
+                      (custom_op_full_prefix
+                        (bare_id))
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (index_type))))))))))))))))
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id
+            (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (index_type))))
+            (value_id_and_type
+              (value_id
+                (suffix_id))
+              (type
+                (builtin_type
+                  (index_type))))))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (non_function_type
+              (builtin_type
+                (index_type)))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (op_result_list
+                    (op_result
+                      (value_id
+                        (suffix_id))))
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (affine_map_attribute
+                          (affine_expr_content)))
+                      (custom_op_full_prefix
+                        (custom_parens
+                          (value_use
+                            (value_id
+                              (suffix_id)))))
+                      (custom_op_full_prefix
+                        (custom_brackets
+                          (value_use
+                            (value_id
+                              (suffix_id)))))
+                      (custom_op_full_prefix
+                        (bare_id))
+                      (custom_op_full_prefix
+                        (value_use
+                          (value_id
+                            (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type
+                              (builtin_type
+                                (index_type)))))))))))))))))
+
