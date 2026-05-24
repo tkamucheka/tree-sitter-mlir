@@ -9,7 +9,7 @@ The grammar covers the full MLIR textual IR, including:
 - **Generic operations** — the `"opname"(args) {attrs} : functype` form
 - **Custom operations** — dialect-specific formats with arbitrary prefix tokens, type annotations, regions, and successor blocks
 - **Types** — builtin scalar and parametric types (`tensor`, `memref`, `vector`, `complex`, `tuple`), dialect types (`!namespace.name<...>`), type aliases, and function types
-- **Attributes** — all builtin attribute kinds (`dense`, `dense_resource`, `sparse`, `opaque`, `affine_map`, `affine_set`, array, dictionary), dialect attributes, and attribute aliases
+- **Attributes** — all builtin attribute kinds (`dense`, `dense_resource`, `sparse`, `opaque`, `strided`, `affine_map`, `affine_set`, array, dictionary), dialect attributes, and attribute aliases
 - **SSA values** — `%id`, result lists, block arguments with per-argument type annotations and attribute dicts
 - **Regions and blocks** — entry blocks, labeled blocks with argument lists, block successors
 - **Symbol references** — `@name` with nested `::` qualification
@@ -38,8 +38,8 @@ Maps AST node types to standard [highlight capture names](https://tree-sitter.gi
 | Capture                  | Matched Nodes                                                    |
 |--------------------------|------------------------------------------------------------------|
 | `@comment`               | Line comments (`// ...`)                                         |
-| `@string`                | String literals                                                  |
-| `@number`, `@number.float` | Integer and float literals                                     |
+| `@string`                | String literals; quoted op names in generic operations           |
+| `@number`                | Integer and float literals, `tensor_dim` (`4x`, `?x`), `dense_integer`, `dense_float` |
 | `@boolean`               | `true`, `false`                                                  |
 | `@constant.builtin`      | `unit`                                                           |
 | `@type.builtin`          | `i32`, `f64`, `index`, `none`, `tensor`, `memref`, etc.         |
@@ -51,12 +51,14 @@ Maps AST node types to standard [highlight capture names](https://tree-sitter.gi
 | `@variable.definition`   | SSA value definitions (op results and block arguments)           |
 | `@label`                 | Block labels and caret successors (`^bb0`, `^bb1`)               |
 | `@function`              | Symbol references (`@main_graph`, `@func`)                       |
-| `@function.call`         | Op names in custom and generic operations                        |
-| `@property`              | Attribute entry keys and `key = value` op format keys            |
+| `@function.call`         | Op mnemonic (last `bare_id` in `op_id`, e.g. `func` in `func.func`) |
+| `@module`                | Dialect prefix in op names (`func.` in `func.func`) and dotted attr keys |
+| `@property`              | Attribute entry keys (last component) and `key = value` op format keys |
 | `@operator`              | `->`, `=`                                                        |
-| `@keyword`               | `loc`, `dense`, `dense_resource`, `sparse`, `opaque`, `affine_map`, `affine_set` |
+| `@keyword`               | `module`, `constant` structural ops; `loc`, `dense`, `dense_resource`, `sparse`, `opaque`, `strided`, `offset`, `affine_map`, `affine_set`; qualifier keywords (`private`, `public`, `external`, `internal`) |
 | `@keyword.operator`      | `to`, `into`                                                     |
-| `@punctuation.*`         | Delimiters, brackets, and sigils (`%`, `@`, `#`, `!`, `^`)      |
+| `@punctuation.variable`  | `%` (SSA value sigil)                                            |
+| `@punctuation.*`         | Other delimiters, brackets, and sigils (`@`, `#`, `!`, `^`)     |
 
 ### Semantic Scoping (`locals.scm`)
 
@@ -93,7 +95,8 @@ Marks subtrees that editors may collapse into a single summary line. Three node 
 |---------|--------------------|------------------------------------------------------|
 | `@fold` | `region`           | Function bodies, module bodies, loop bodies          |
 | `@fold` | `dictionary_attribute` | Inline attribute dictionaries (`{key = val, ...}`) |
-| `@fold` | `angle_body`       | Dense literals, parametric type bodies (`<...>`)     |
+| `@fold` | `angle_body`       | Parametric type/attribute bodies (`<...>`)           |
+| `@fold` | `dense_attribute`  | Dense literal nodes (`dense<...>`)                   |
 
 Folding is activated via editor-specific commands (e.g. `za` / `zc` in Neovim, `:fold` in Helix).
 
@@ -248,8 +251,9 @@ Several genuine structural ambiguities in the MLIR grammar require GLR mode. The
 |---|---|
 | `[region, dictionary_attribute]` | Both begin with `{`; context resolves which |
 | `[custom_op_body]` | Two-path body is self-conflicting by design |
-| `[custom_operation]` | Op name (`bare_id`) overlaps with prefix tokens |
-| `[custom_operation, attribute_entry]` | `bare_id = value` is both a unit-attr shorthand and an op prefix `key = val` |
+| `[custom_operation]` | Op name (`op_id`) overlaps with prefix tokens |
+| `[custom_op_body, custom_op_full_prefix]` | Dynamic precedence resolves `dictionary_attribute` vs `safe_prefix_only` path |
+| `[op_id, attr_key]` | Both are dotted `bare_id` sequences; context (op position vs attr entry) resolves which |
 | `[custom_op_full_prefix, custom_op_safe_prefix]` | Shared token types across both prefix classes |
 | `[type_alias, dialect_type]` | Both begin with `!`; resolved by presence of angle body |
 | `[attribute_alias, dialect_attribute]` | Both begin with `#`; resolved by presence of angle body |

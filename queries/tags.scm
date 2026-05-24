@@ -9,7 +9,7 @@
 ; Function-like operations: func.func @name, func.private @name, etc.
 ; Matches any custom op whose first body prefix is a symbol_ref_id
 (custom_operation
-  (bare_id) @_op
+  (op_id) @_op
   (custom_op_body
     (custom_op_full_prefix
       (symbol_ref_id) @name) .)
@@ -18,7 +18,7 @@
 
 ; Module-level named ops (e.g. gpu.module @name, llvm.mlir.global @name)
 (custom_operation
-  (bare_id) @_op
+  (op_id) @_op
   (custom_op_body
     (custom_op_full_prefix
       (symbol_ref_id) @name) .)

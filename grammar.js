@@ -12,7 +12,6 @@ export default grammar({
     [$.region, $.dictionary_attribute],
     [$.custom_op_body],
     [$.custom_operation],
-    [$.custom_operation, $.attribute_entry],
     [$.custom_op_full_prefix, $.custom_op_safe_prefix],
     [$.type_alias, $.dialect_type],
     [$.attribute_alias, $.dialect_attribute],
@@ -23,6 +22,8 @@ export default grammar({
     [$.caret_successor, $.custom_op_full_prefix],
     [$.caret_successor, $.custom_op_safe_prefix],
     [$.custom_op_kv_brackets, $.custom_op_full_prefix],
+    [$.custom_op_body, $.custom_op_full_prefix],
+    [$.op_id, $.attr_key],
   ],
 
   rules: {
@@ -35,7 +36,10 @@ export default grammar({
     comment: $ => /\/\/.*/,
 
     // --- Identifiers ---
-    bare_id: $ => /[a-zA-Z_][a-zA-Z0-9_$.]*/,
+    bare_id: $ => /[a-zA-Z_][a-zA-Z0-9_$]*/,
+
+    // dot-separated op name: func.func, llvm.mlir.global, or bare: return, module
+    op_id: $ => seq($.bare_id, repeat(seq('.', $.bare_id))),
 
     suffix_id: $ => choice(
       /[0-9]+/,
@@ -101,13 +105,14 @@ export default grammar({
     //   1. with_terminal: any prefix tokens followed by a required terminal (: type or region)
     //   2. safe_prefix_only: only unambiguous tokens (no bare_id or value_use at top level)
     custom_operation: $ => seq(
-      $.bare_id,
+      $.op_id,
       optional($.custom_op_body),
     ),
 
     custom_op_body: $ => choice(
       seq(repeat($.custom_op_full_prefix), $.custom_op_terminal),
-      repeat1($.custom_op_safe_prefix),
+      prec.dynamic(2, seq(repeat($.custom_op_full_prefix), $.dictionary_attribute)),
+      prec.dynamic(1, repeat1($.custom_op_safe_prefix)),
     ),
 
     // Terminal: ends the operation cleanly
@@ -164,6 +169,7 @@ export default grammar({
       $.custom_parens,
       $.custom_brackets,
       $.custom_op_kv,  // key = value without terminal (e.g. spar_ll.printstr punctuation = "...")
+      $.return_type_annotation,  // for external func decls: llvm.func @f(i32) -> i32
     ),
 
     // -> type or -> (types) — used in func signatures and scf.for return types
@@ -287,30 +293,48 @@ export default grammar({
       $.tuple_type,
     ),
 
-    integer_type: $ => /[su]?i[1-9][0-9]*/,
+    // prec(1) ensures integer_type beats bare_id when both match (e.g. i32, si64)
+    integer_type: $ => token(prec(1, /[su]?i[1-9][0-9]*/)),
     float_type: $ => choice('f16', 'f32', 'f64', 'f80', 'f128', 'bf16'),
     index_type: $ => 'index',
     none_type: $ => 'none',
 
-    // Parametric types: opaque angle-bracket body avoids nested ambiguity
-    tensor_type: $ => seq('tensor', $.angle_body),
-    memref_type: $ => seq('memref', $.angle_body),
-    vector_type: $ => seq('vector', $.angle_body),
+    // Dimension token: `4x`, `?x`, `*x` — atomic so the lexer never splits `4x8xf32`
+    tensor_dim: $ => token(choice(/[0-9]+x/, '?x', '*x')),
+
+    tensor_type: $ => seq('tensor', '<', repeat($.tensor_dim), $.non_function_type,
+      optional(seq(',', $.attribute_value)), '>'),
+    memref_type: $ => seq('memref', '<', repeat($.tensor_dim), $.non_function_type,
+      repeat(seq(',', $.attribute_value)), '>'),
+    vector_type: $ => seq('vector', '<', repeat1($.tensor_dim), $.non_function_type, '>'),
     complex_type: $ => seq('complex', '<', $.type, '>'),
     tuple_type: $ => seq('tuple', '<', optional($.type_list_no_parens), '>'),
 
     // Opaque <...> body (handles arbitrary nesting)
     angle_body: $ => seq('<', optional($.angle_body_content), '>'),
+    // Structured content: type keywords and dim tokens are recognized before the
+    // catch-all so they get proper AST nodes. The catch-all covers non-word chars
+    // (operators, colons, commas, sigils) that don't match any specific token.
     angle_body_content: $ => repeat1(choice(
       $.angle_body,
       seq('(', optional($.angle_body_content), ')'),
       seq('[', optional($.angle_body_content), ']'),
       seq('{', optional($.angle_body_content), '}'),
-      /[^\[<({\]>)}]+/,
+      $.tensor_dim,     // 4x, ?x, *x — longer than integer_literal so wins for 4x...
+      $.integer_type,   // i32, si64, ui8 — prec(1) beats bare_id on same-length match
+      $.float_type,     // f32, f64, bf16 — keyword-extracted from bare_id
+      $.index_type,     // index
+      $.none_type,      // none
+      $.bool_literal,   // true / false
+      $.integer_literal,
+      $.float_literal,
+      $.string_literal,
+      $.bare_id,        // everything else word-like
+      /[^\[<({\]>)}\w"]+/,   // non-word catch-all: !, ?, *, ->, commas, colons …
     )),
 
     // --- Dialect types ---
-    dialect_type: $ => seq('!', $.bare_id, optional($.angle_body)),
+    dialect_type: $ => seq('!', $.bare_id, repeat(seq('.', $.bare_id)), optional($.angle_body)),
 
     // --- Attributes ---
     attribute_alias: $ => seq('#', $.bare_id),
@@ -322,7 +346,7 @@ export default grammar({
     ),
 
     // #namespace or #namespace.name or #namespace<body> or #namespace.name<body>
-    dialect_attribute: $ => seq('#', $.bare_id, optional($.angle_body)),
+    dialect_attribute: $ => seq('#', $.bare_id, repeat(seq('.', $.bare_id)), optional($.angle_body)),
 
     builtin_attribute: $ => choice(
       $.integer_attribute,
@@ -334,6 +358,7 @@ export default grammar({
       $.dense_resource_attribute,
       $.sparse_attribute,
       $.opaque_attribute,
+      $.strided_layout,
       $.array_attribute,
       $.dictionary_attribute,
       $.affine_map_attribute,
@@ -364,10 +389,26 @@ export default grammar({
     affine_set_attribute: $ => seq('affine_set', '<', $.affine_expr_content, '>'),
     // Matches affine map/set content: allows -> and >= but stops at bare >
     affine_expr_content: $ => /(->|>=|[^<>])*/,
-    dense_attribute: $ => seq('dense', $.angle_body),
+    dense_attribute: $ => seq('dense', '<', $.dense_value, '>'),
+
+    // Number tokens inside dense — atomic so signed forms like -1 and -1.0 lex cleanly
+    dense_integer: $ => token(choice(/[+-]?0x[0-9a-fA-F]+/, /[+-]?[0-9]+/)),
+    dense_float: $ => token(/[+-]?[0-9]+\.[0-9]*([eE][+-]?[0-9]+)?/),
+
+    dense_value: $ => choice(
+      $.dense_float,
+      $.dense_integer,
+      $.string_literal,
+      $.bool_literal,
+      '...',
+      $.dense_array,
+    ),
+
+    dense_array: $ => seq('[', optional(commaSep1($.dense_value)), ']'),
     dense_resource_attribute: $ => seq('dense_resource', $.angle_body),
     sparse_attribute: $ => seq('sparse', $.angle_body),
     opaque_attribute: $ => seq('opaque', $.angle_body),
+    strided_layout: $ => seq('strided', $.angle_body),
 
     array_attribute: $ => seq('[', optional(commaSep1($.attribute_value)), ']'),
 
@@ -377,10 +418,13 @@ export default grammar({
       '}',
     ),
 
+    // Attribute dict key: simple or dialect-dotted (e.g. onnx.name, sym_name)
+    attr_key: $ => seq($.bare_id, repeat(seq('.', $.bare_id))),
+
     attribute_entry: $ => choice(
-      seq(choice($.bare_id, $.string_literal), '=', $.attribute_value),
+      seq(choice($.attr_key, $.string_literal), '=', $.attribute_value),
       // unit attribute shorthand: just the name, no = value
-      choice($.bare_id, $.string_literal),
+      choice($.attr_key, $.string_literal),
     ),
   },
 });
