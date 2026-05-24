@@ -152,6 +152,7 @@ export default grammar({
       $.custom_op_kv,
       $.custom_op_kv_brackets,  // for `key: [...]` syntax (e.g. offset: [...] in reinterpret_cast)
       $.bare_id,
+      'to',
       ',',
     ),
 

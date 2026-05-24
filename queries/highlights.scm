@@ -64,7 +64,7 @@
 ; Operation names — dialect prefix gets @module, mnemonic gets @function.call
 ; Structural ops: priority 101 so they beat the @function.call rule below
 ((custom_operation . (op_id . (bare_id) @keyword .))
- (#match? @keyword "^(module|constant|to)$")
+ (#match? @keyword "^(module|constant)$")
  (#set! priority 101))
 (custom_operation . (op_id . (bare_id) @module "."))
 (custom_operation . (op_id (bare_id) @function.call .))
@@ -74,6 +74,7 @@
 ; bare_id inside custom_op_full_prefix — does not match op names in op_id
 ((custom_op_full_prefix (bare_id) @keyword)
  (#match? @keyword "^(constant|private|public|external|internal)$"))
+(custom_op_full_prefix "to" @keyword.operator)
 ((custom_op_full_prefix (bare_id) @keyword.operator)
  (#match? @keyword.operator "^step$"))
 

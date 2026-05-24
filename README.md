@@ -56,7 +56,7 @@ Maps AST node types to standard [highlight capture names](https://tree-sitter.gi
 | `@property`              | Attribute entry keys (last component) and `key = value` op format keys |
 | `@operator`              | `->`, `=`                                                        |
 | `@keyword`               | `module`, `constant` structural ops; `loc`, `dense`, `dense_resource`, `sparse`, `opaque`, `strided`, `offset`, `affine_map`, `affine_set`; qualifier keywords (`private`, `public`, `external`, `internal`) |
-| `@keyword.operator`      | `to`, `into`                                                     |
+| `@keyword.operator`      | `to`, `into` (in type annotations); `to`, `step` (in custom op prefix position) |
 | `@punctuation.variable`  | `%` (SSA value sigil)                                            |
 | `@punctuation.*`         | Other delimiters, brackets, and sigils (`@`, `#`, `!`, `^`)     |
 
