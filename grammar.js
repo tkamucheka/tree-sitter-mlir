@@ -194,7 +194,16 @@ export default grammar({
         $.value_id_and_type,
         $.custom_parens,
         $.dialect_type,   // for !type tokens, e.g. llvm.func @f(!llvm.ptr)
-        $.angle_body,     // for <...> bodies after keyword tokens (e.g. dense<...>, tensor<...>)
+        $.dense_attribute,
+        $.tensor_type,
+        $.memref_type,
+        $.vector_type,
+        $.angle_body,     // for <...> bodies after keyword tokens not handled above
+        $.integer_type,
+        $.float_type,
+        $.index_type,
+        $.none_type,
+        $.bool_literal,
         $.integer_literal,
         $.float_literal,
         $.string_literal,

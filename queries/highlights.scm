@@ -34,9 +34,9 @@
 
 ; Dialect types and attributes
 (dialect_type) @type
-(dialect_type . "!" . (bare_id) @module ".")
+(dialect_type (bare_id) @module ".")
 (dialect_attribute) @attribute
-(dialect_attribute . "#" . (bare_id) @module ".")
+(dialect_attribute (bare_id) @module ".")
 
 ; Attribute keywords
 (dense_attribute "dense" @keyword)
@@ -66,14 +66,14 @@
 ((custom_operation . (op_id . (bare_id) @keyword .))
  (#match? @keyword "^(module|constant)$")
  (#set! priority 101))
-(custom_operation . (op_id . (bare_id) @module "."))
+(custom_operation . (op_id (bare_id) @module "."))
 (custom_operation . (op_id (bare_id) @function.call .))
 (generic_operation (string_literal) @string)
 
 ; Qualifier keywords inside op bodies (linkage, storage class, etc.)
 ; bare_id inside custom_op_full_prefix — does not match op names in op_id
 ((custom_op_full_prefix (bare_id) @keyword)
- (#match? @keyword "^(constant|private|public|external|internal)$"))
+ (#match? @keyword "^(attributes|constant|private|public|external|internal)$"))
 (custom_op_full_prefix "to" @keyword.operator)
 ((custom_op_full_prefix (bare_id) @keyword.operator)
  (#match? @keyword.operator "^step$"))
