@@ -1,0 +1,191 @@
+================================================================================
+Generic operation with dictionary attribute
+================================================================================
+
+"dialect.op"(%0, %1) {attr = 1 : i32} : (i32, i32) -> i32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (generic_operation
+      (string_literal)
+      (value_use_list
+        (value_use (value_id (suffix_id)))
+        (value_use (value_id (suffix_id))))
+      (dictionary_attribute
+        (attribute_entry
+          (attr_key (bare_id))
+          (attribute_value
+            (builtin_attribute
+              (integer_attribute
+                (integer_literal)
+                (integer_type))))))
+      (function_type
+        (type_list_parens
+          (type (builtin_type (integer_type)))
+          (type (builtin_type (integer_type))))
+        (type_list_no_parens
+          (type (builtin_type (integer_type))))))))
+
+================================================================================
+Dictionary attribute with dotted key
+================================================================================
+
+module attributes {llvm.target_triple = "x86_64-unknown-linux-gnu"} {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (bare_id))
+        (custom_op_full_prefix
+          (dictionary_attribute
+            (attribute_entry
+              (attr_key (bare_id) (bare_id))
+              (attribute_value
+                (builtin_attribute (string_literal))))))
+        (dictionary_attribute)))))
+
+================================================================================
+Dense scalar float attribute
+================================================================================
+
+%0 = arith.constant dense<0.0> : tensor<4xf32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (dense_attribute
+            (dense_value (dense_float))))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (non_function_type (builtin_type (float_type)))))))))))))
+
+================================================================================
+Dense float array attribute
+================================================================================
+
+%0 = arith.constant dense<[1.0, 2.0, 3.0]> : tensor<3xf32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (dense_attribute
+            (dense_value
+              (dense_array
+                (dense_value (dense_float))
+                (dense_value (dense_float))
+                (dense_value (dense_float))))))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (non_function_type (builtin_type (float_type)))))))))))))
+
+================================================================================
+Dense integer array attribute
+================================================================================
+
+%0 = arith.constant dense<[1, 2, 3]> : tensor<3xi32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (dense_attribute
+            (dense_value
+              (dense_array
+                (dense_value (dense_integer))
+                (dense_value (dense_integer))
+                (dense_value (dense_integer))))))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (non_function_type (builtin_type (integer_type)))))))))))))
+
+================================================================================
+Dense attribute inside argument parens
+================================================================================
+
+%0 = llvm.mlir.constant(dense<[-2.0, 1.0]> : tensor<2xf32>) : !llvm.array<2 x f32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (custom_parens
+            (dense_attribute
+              (dense_value
+                (dense_array
+                  (dense_value (dense_float))
+                  (dense_value (dense_float)))))
+            (tensor_type
+              (tensor_dim)
+              (non_function_type (builtin_type (float_type))))))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (dialect_type
+                  (bare_id)
+                  (bare_id)
+                  (angle_body
+                    (angle_body_content
+                      (integer_literal)
+                      (bare_id)
+                      (float_type))))))))))))
+
+================================================================================
+Affine map alias definition
+================================================================================
+
+#map = affine_map<(d0) -> (d0 + 1)>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_alias_def
+    (bare_id)
+    (attribute_value
+      (builtin_attribute
+        (affine_map_attribute
+          (affine_expr_content))))))

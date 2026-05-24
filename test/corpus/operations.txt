@@ -1,0 +1,226 @@
+================================================================================
+SSA single result
+================================================================================
+
+%0 = arith.constant 1 : i32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list
+      (op_result
+        (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (integer_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type (builtin_type (integer_type))))))))))
+
+================================================================================
+SSA multi-result — count suffix
+================================================================================
+
+%0:2 = "some.op"() : () -> (i32, i64)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list
+      (op_result
+        (value_id (suffix_id))
+        (integer_literal)))
+    (generic_operation
+      (string_literal)
+      (function_type
+        (type_list_parens)
+        (type_list_parens
+          (type (builtin_type (integer_type)))
+          (type (builtin_type (integer_type))))))))
+
+================================================================================
+Generic operation
+================================================================================
+
+"dialect.op"(%0, %1) {attr = 1 : i32} : (i32, i32) -> i32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (generic_operation
+      (string_literal)
+      (value_use_list
+        (value_use (value_id (suffix_id)))
+        (value_use (value_id (suffix_id))))
+      (dictionary_attribute
+        (attribute_entry
+          (attr_key (bare_id))
+          (attribute_value
+            (builtin_attribute
+              (integer_attribute
+                (integer_literal)
+                (integer_type))))))
+      (function_type
+        (type_list_parens
+          (type (builtin_type (integer_type)))
+          (type (builtin_type (integer_type))))
+        (type_list_no_parens
+          (type (builtin_type (integer_type))))))))
+
+================================================================================
+Custom op — op_id with three segments
+================================================================================
+
+%0 = llvm.mlir.constant(1 : i64) : i64
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (custom_parens
+            (integer_literal)
+            (integer_type)))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type (builtin_type (integer_type))))))))))
+
+================================================================================
+Custom op — safe prefix only (no terminal)
+================================================================================
+
+llvm.func @malloc(i64) -> !llvm.ptr
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens (integer_type)))
+        (custom_op_safe_prefix
+          (return_type_annotation
+            (non_function_type
+              (dialect_type (bare_id) (bare_id)))))))))
+
+================================================================================
+scf.for with to and step keywords
+================================================================================
+
+scf.for %iv = %lb to %ub step %step {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (custom_op_kv
+            (value_use (value_id (suffix_id)))
+            (value_use (value_id (suffix_id)))))
+        (custom_op_full_prefix)
+        (custom_op_full_prefix
+          (value_use (value_id (suffix_id))))
+        (custom_op_full_prefix
+          (bare_id))
+        (custom_op_full_prefix
+          (value_use (value_id (suffix_id))))
+        (dictionary_attribute)))))
+
+================================================================================
+module with attributes keyword
+================================================================================
+
+module attributes {llvm.target_triple = "x86_64-unknown-linux-gnu"} {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (bare_id))
+        (custom_op_full_prefix
+          (dictionary_attribute
+            (attribute_entry
+              (attr_key (bare_id) (bare_id))
+              (attribute_value
+                (builtin_attribute (string_literal))))))
+        (dictionary_attribute)))))
+
+================================================================================
+func.func with typed block arguments
+================================================================================
+
+func.func @add(%arg0: i32, %arg1: i32) -> i32 {
+  %0 = arith.addi %arg0, %arg1 : i32
+  return %0 : i32
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (symbol_ref_id (suffix_id)))
+        (custom_op_full_prefix
+          (custom_parens
+            (value_id_and_type
+              (value_id (suffix_id))
+              (type (builtin_type (integer_type))))
+            (value_id_and_type
+              (value_id (suffix_id))
+              (type (builtin_type (integer_type))))))
+        (custom_op_full_prefix
+          (return_type_annotation
+            (non_function_type (builtin_type (integer_type)))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (op_result_list (op_result (value_id (suffix_id))))
+                  (custom_operation
+                    (op_id (bare_id) (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use (value_id (suffix_id))))
+                      (custom_op_full_prefix)
+                      (custom_op_full_prefix
+                        (value_use (value_id (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type (builtin_type (integer_type)))))))))
+                (operation
+                  (custom_operation
+                    (op_id (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix
+                        (value_use (value_id (suffix_id))))
+                      (custom_op_terminal
+                        (type_annotation
+                          (type_list_no_parens
+                            (type (builtin_type (integer_type)))))))))))))))))

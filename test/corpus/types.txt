@@ -1,0 +1,242 @@
+================================================================================
+Integer types in type annotation
+================================================================================
+
+%0 = arith.constant 0 : i32
+%1 = arith.constant 0 : si64
+%2 = arith.constant 0 : ui8
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (integer_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (integer_type)))))))))
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (integer_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (integer_type)))))))))
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (integer_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (integer_type))))))))))
+
+================================================================================
+Float types in type annotation
+================================================================================
+
+%0 = arith.constant 0.0 : f16
+%1 = arith.constant 0.0 : f32
+%2 = arith.constant 0.0 : f64
+%3 = arith.constant 0.0 : bf16
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (float_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (float_type)))))))))
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (float_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (float_type)))))))))
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (float_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (float_type)))))))))
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (float_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (float_type))))))))))
+
+================================================================================
+Index type in type annotation
+================================================================================
+
+%0 = arith.constant 0 : index
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (integer_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens (type (builtin_type (index_type))))))))))
+
+================================================================================
+Tensor type with static dimensions
+================================================================================
+
+%0 = arith.constant dense<0.0> : tensor<4xf32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (dense_attribute
+            (dense_value (dense_float))))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type (float_type)))))))))))))
+
+================================================================================
+Tensor type with dynamic dimension
+================================================================================
+
+%0 = memref.alloc() : memref<?xf32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (custom_parens))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (memref_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type (float_type)))))))))))))
+
+================================================================================
+Memref with strided layout
+================================================================================
+
+%0 = memref.alloc() : memref<?xf32, strided<[1], offset: ?>>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (custom_parens))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (memref_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type (float_type)))
+                    (attribute_value
+                      (builtin_attribute
+                        (strided_layout
+                          (angle_body
+                            (angle_body_content
+                              (angle_body_content
+                                (integer_literal))
+                              (bare_id))))))))))))))))
+
+================================================================================
+Dialect type — single namespace
+================================================================================
+
+llvm.func @malloc(i64) -> !llvm.ptr
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_safe_prefix
+          (symbol_ref_id (suffix_id)))
+        (custom_op_safe_prefix
+          (custom_parens (integer_type)))
+        (custom_op_safe_prefix
+          (return_type_annotation
+            (non_function_type
+              (dialect_type
+                (bare_id)
+                (bare_id)))))))))
+
+================================================================================
+Dialect type — dotted namespace
+================================================================================
+
+%0 = spar_ll.allocate_reg() : !spar_ll.reg<?xf32>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list (op_result (value_id (suffix_id))))
+    (custom_operation
+      (op_id (bare_id) (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix (custom_parens))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (dialect_type
+                  (bare_id)
+                  (bare_id)
+                  (angle_body
+                    (angle_body_content
+                      (tensor_dim)
+                      (float_type))))))))))))

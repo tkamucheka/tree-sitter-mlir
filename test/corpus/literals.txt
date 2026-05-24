@@ -1,0 +1,127 @@
+================================================================================
+Line comment
+================================================================================
+
+// this is a comment
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment))
+
+================================================================================
+Integer constant
+================================================================================
+
+%0 = arith.constant 42 : i32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list
+      (op_result
+        (value_id
+          (suffix_id))))
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (integer_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (integer_type))))))))))
+
+================================================================================
+Float constant
+================================================================================
+
+%0 = arith.constant 1.0 : f32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list
+      (op_result
+        (value_id
+          (suffix_id))))
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (float_literal))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (float_type))))))))))
+
+================================================================================
+Bool literal in argument list
+================================================================================
+
+%0 = llvm.mlir.constant(false) : i1
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (op_result_list
+      (op_result
+        (value_id
+          (suffix_id))))
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (custom_parens
+            (bool_literal)))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (integer_type))))))))))
+
+================================================================================
+Type alias definition
+================================================================================
+
+!MyType = i32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (type_alias_def
+    (bare_id)
+    (type
+      (builtin_type
+        (integer_type)))))
+
+================================================================================
+Attribute alias definition
+================================================================================
+
+#alias = affine_map<(d0) -> (d0 + 1)>
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (attribute_alias_def
+    (bare_id)
+    (attribute_value
+      (builtin_attribute
+        (affine_map_attribute
+          (affine_expr_content))))))
