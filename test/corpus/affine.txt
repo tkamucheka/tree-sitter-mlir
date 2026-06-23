@@ -103,21 +103,24 @@ func.func @semiaffine_floordiv(%arg0: index, %arg1: index) -> index {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (affine_map_attribute
                           (affine_expr_content)))
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (custom_parens
                           (value_use
                             (value_id
                               (suffix_id)))))
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (custom_brackets
                           (value_use
                             (value_id
-                              (suffix_id)))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                              (suffix_id))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id
@@ -170,21 +173,24 @@ func.func @semiaffine_floordiv(%arg0: index, %arg1: index) -> index {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (affine_map_attribute
                           (affine_expr_content)))
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (custom_parens
                           (value_use
                             (value_id
                               (suffix_id)))))
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (custom_brackets
                           (value_use
                             (value_id
-                              (suffix_id)))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                              (suffix_id))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id

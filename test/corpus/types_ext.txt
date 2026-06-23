@@ -390,12 +390,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -425,12 +423,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -460,12 +456,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -495,12 +489,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -530,12 +522,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -565,12 +555,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -600,12 +588,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -635,12 +621,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -670,12 +654,10 @@ func.func @cmpi_equal_vector_operands(%arg0: vector<1x8xi64>)
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -872,11 +854,15 @@ llvm.func @byvalattr(%arg0: !llvm.ptr<i32> {llvm.byval}) {
                   (attr_key
                     (bare_id)
                     (bare_id)))))))
-        (dictionary_attribute
-          (attribute_entry
-            (attr_key
-              (bare_id)
-              (bare_id))))))))
+        (custom_op_terminal
+          (region
+            (region_body
+              (entry_block
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id)
+                      (bare_id))))))))))))
 
 ================================================================================
 Linalg matmul with memref of unknown dimensions

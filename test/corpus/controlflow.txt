@@ -94,17 +94,17 @@ func.func @simple(i64, i1) -> i64 {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_safe_prefix
-                        (caret_id
-                          (suffix_id)))
-                      (custom_op_safe_prefix
-                        (custom_parens
-                          (value_id_and_type
-                            (value_id
-                              (suffix_id))
-                            (type
-                              (builtin_type
-                                (integer_type))))))))))
+                      (custom_op_terminal
+                        (caret_successor
+                          (caret_id
+                            (suffix_id))
+                          (custom_parens
+                            (value_id_and_type
+                              (value_id
+                                (suffix_id))
+                              (type
+                                (builtin_type
+                                  (integer_type)))))))))))
               (comment)
               (block
                 (block_label
@@ -141,17 +141,17 @@ func.func @simple(i64, i1) -> i64 {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_safe_prefix
-                        (caret_id
-                          (suffix_id)))
-                      (custom_op_safe_prefix
-                        (custom_parens
-                          (value_id_and_type
-                            (value_id
-                              (suffix_id))
-                            (type
-                              (builtin_type
-                                (integer_type))))))))))
+                      (custom_op_terminal
+                        (caret_successor
+                          (caret_id
+                            (suffix_id))
+                          (custom_parens
+                            (value_id_and_type
+                              (value_id
+                                (suffix_id))
+                              (type
+                                (builtin_type
+                                  (integer_type)))))))))))
               (comment)
               (comment)
               (comment)
@@ -174,21 +174,21 @@ func.func @simple(i64, i1) -> i64 {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_safe_prefix
-                        (caret_id
-                          (suffix_id)))
-                      (custom_op_safe_prefix
-                        (custom_parens
-                          (value_use
-                            (value_id
-                              (suffix_id)))
-                          (value_id_and_type
-                            (value_id
-                              (suffix_id))
-                            (type
-                              (builtin_type
-                                (integer_type))))
-                          (integer_type)))))))
+                      (custom_op_terminal
+                        (caret_successor
+                          (caret_id
+                            (suffix_id))
+                          (custom_parens
+                            (value_use
+                              (value_id
+                                (suffix_id)))
+                            (value_id_and_type
+                              (value_id
+                                (suffix_id))
+                              (type
+                                (builtin_type
+                                  (integer_type))))
+                            (integer_type))))))))
               (block
                 (block_label
                   (caret_id
@@ -389,8 +389,7 @@ func.func @for_loop_with_increasing_arg() -> i1 {
                         (value_use
                           (value_id
                             (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                      (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (custom_parens
                           (value_use
@@ -457,12 +456,10 @@ func.func @for_loop_with_increasing_arg() -> i1 {
                   (custom_operation
                     (op_id
                       (bare_id)
-                      (bare_id))))
-                (operation
-                  (custom_operation
-                    (op_id
                       (bare_id))
                     (custom_op_body
+                      (custom_op_full_prefix
+                        (bare_id))
                       (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (value_use
@@ -674,12 +671,10 @@ func.func @std_for(%arg0 : index, %arg1 : index, %arg2 : index) {
                                               (custom_operation
                                                 (op_id
                                                   (bare_id)
-                                                  (bare_id))))
-                                            (operation
-                                              (custom_operation
-                                                (op_id
                                                   (bare_id))
                                                 (custom_op_body
+                                                  (custom_op_full_prefix
+                                                    (bare_id))
                                                   (custom_op_full_prefix)
                                                   (custom_op_full_prefix
                                                     (value_use
@@ -751,7 +746,8 @@ func.func @std_for(%arg0 : index, %arg1 : index, %arg2 : index) {
                                                     (value_use
                                                       (value_id
                                                         (suffix_id))))
-                                                  (dictionary_attribute))))))))))))))))))
+                                                  (custom_op_terminal
+                                                    (region)))))))))))))))))))
                 (operation
                   (custom_operation
                     (op_id
@@ -1063,17 +1059,20 @@ func.func @switch(%arg0: index) -> i32 {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
                             (suffix_id))))
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (return_type_annotation
                           (non_function_type
                             (builtin_type
-                              (integer_type)))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                              (integer_type))))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (integer_literal))
                       (custom_op_terminal
@@ -1208,17 +1207,24 @@ func.func @switch(%arg0: index) -> i32 {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
-                      (dictionary_attribute
-                        (attribute_entry
-                          (attr_key
-                            (bare_id)
-                            (bare_id)))))))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_terminal
+                        (region
+                          (region_body
+                            (entry_block
+                              (operation
+                                (custom_operation
+                                  (op_id
+                                    (bare_id)
+                                    (bare_id)))))))))))
                 (operation
                   (custom_operation
                     (op_id

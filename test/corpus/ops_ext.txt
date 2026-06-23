@@ -1016,12 +1016,15 @@ func.func @insert_slice(
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id
@@ -1087,12 +1090,15 @@ func.func @insert_slice(
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id
@@ -1156,12 +1162,15 @@ func.func @insert_slice(
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id
@@ -1214,12 +1223,15 @@ func.func @insert_slice(
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id
@@ -1333,12 +1345,15 @@ func.func @insert(%arg0: f32, %arg1: index, %arg2: tensor<?x?x?xf32>) {
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
                       (custom_op_full_prefix
                         (value_use
                           (value_id
@@ -1800,24 +1815,20 @@ func.func @pack_nc_to_ncnc(%source: tensor<128x256xf32>, %dest: tensor<4x16x32x1
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix)
                       (custom_op_full_prefix
-                        (custom_op_kv
-                          (bare_id)
-                          (attribute_value
-                            (builtin_attribute
-                              (array_attribute
-                                (attribute_value
-                                  (builtin_attribute
-                                    (integer_attribute
-                                      (integer_literal))))
-                                (attribute_value
-                                  (builtin_attribute
-                                    (integer_attribute
-                                      (integer_literal)))))))))
+                        (custom_brackets
+                          (integer_literal)
+                          (integer_literal)))
                       (custom_op_full_prefix
                         (custom_op_kv
                           (bare_id)
@@ -1895,24 +1906,20 @@ func.func @pack_nc_to_ncnc(%source: tensor<128x256xf32>, %dest: tensor<4x16x32x1
                       (bare_id)
                       (bare_id))
                     (custom_op_body
-                      (custom_op_full_prefix
+                      (custom_op_safe_prefix
                         (value_use
                           (value_id
-                            (suffix_id))))
+                            (suffix_id)))))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix)
                       (custom_op_full_prefix
-                        (custom_op_kv
-                          (bare_id)
-                          (attribute_value
-                            (builtin_attribute
-                              (array_attribute
-                                (attribute_value
-                                  (builtin_attribute
-                                    (integer_attribute
-                                      (integer_literal))))
-                                (attribute_value
-                                  (builtin_attribute
-                                    (integer_attribute
-                                      (integer_literal)))))))))
+                        (custom_brackets
+                          (integer_literal)
+                          (integer_literal)))
                       (custom_op_full_prefix
                         (custom_op_kv
                           (bare_id)
@@ -3048,8 +3055,7 @@ func.func @truncation_spillover(%arg0 : memref<?xi32>) -> index {
                         (value_use
                           (value_id
                             (suffix_id))))
-                      (custom_op_full_prefix
-                        (bare_id))
+                      (custom_op_full_prefix)
                       (custom_op_full_prefix
                         (custom_parens
                           (value_use
@@ -4076,14 +4082,18 @@ func.func @test_alloc_tensor_op(%t: tensor<?x5xf32>, %sz: index)
                       (bare_id)
                       (bare_id))
                     (custom_op_body
+                      (custom_op_safe_prefix
+                        (custom_parens)))))
+                (operation
+                  (custom_operation
+                    (op_id
+                      (bare_id))
+                    (custom_op_body
+                      (custom_op_full_prefix)
                       (custom_op_full_prefix
-                        (custom_parens))
-                      (custom_op_full_prefix
-                        (custom_op_kv
-                          (bare_id)
-                          (value_use
-                            (value_id
-                              (suffix_id)))))
+                        (value_use
+                          (value_id
+                            (suffix_id))))
                       (custom_op_terminal
                         (type_annotation
                           (type_list_no_parens
@@ -5456,3 +5466,36 @@ func.func @vector_transfer_ops(%arg0: memref<?x?xf32>,
                     (op_id
                       (bare_id))))))))))))
 
+================================================================================
+arith op with fastmath attribute and 2 operands
+================================================================================
+
+arith.addf %a, %b fastmath<fast> : f32
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (operation
+    (custom_operation
+      (op_id
+        (bare_id)
+        (bare_id))
+      (custom_op_body
+        (custom_op_full_prefix
+          (value_use
+            (value_id
+              (suffix_id))))
+        (custom_op_full_prefix)
+        (custom_op_full_prefix
+          (value_use
+            (value_id
+              (suffix_id))))
+        (custom_op_full_prefix
+          (fastmath_attribute
+            (bare_id)))
+        (custom_op_terminal
+          (type_annotation
+            (type_list_no_parens
+              (type
+                (builtin_type
+                  (float_type))))))))))

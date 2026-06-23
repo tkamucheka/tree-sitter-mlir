@@ -129,20 +129,31 @@ scf.for %iv = %lb to %ub step %step {
 (source_file
   (operation
     (custom_operation
-      (op_id (bare_id) (bare_id))
+      (op_id
+        (bare_id)
+        (bare_id))
       (custom_op_body
         (custom_op_full_prefix
           (custom_op_kv
-            (value_use (value_id (suffix_id)))
-            (value_use (value_id (suffix_id)))))
+            (value_use
+              (value_id
+                (suffix_id)))
+            (value_use
+              (value_id
+                (suffix_id)))))
         (custom_op_full_prefix)
         (custom_op_full_prefix
-          (value_use (value_id (suffix_id))))
+          (value_use
+            (value_id
+              (suffix_id))))
         (custom_op_full_prefix
           (bare_id))
         (custom_op_full_prefix
-          (value_use (value_id (suffix_id))))
-        (dictionary_attribute)))))
+          (value_use
+            (value_id
+              (suffix_id))))
+        (custom_op_terminal
+          (region))))))
 
 ================================================================================
 module with attributes keyword
@@ -156,16 +167,21 @@ module attributes {llvm.target_triple = "x86_64-unknown-linux-gnu"} {
 (source_file
   (operation
     (custom_operation
-      (op_id (bare_id))
+      (op_id
+        (bare_id))
       (custom_op_body
-        (custom_op_full_prefix (bare_id))
         (custom_op_full_prefix
-          (dictionary_attribute
-            (attribute_entry
-              (attr_key (bare_id) (bare_id))
-              (attribute_value
-                (builtin_attribute (string_literal))))))
-        (dictionary_attribute)))))
+          (attributes_dict_pair
+            (dictionary_attribute
+              (attribute_entry
+                (attr_key
+                  (bare_id)
+                  (bare_id))
+                (attribute_value
+                  (builtin_attribute
+                    (string_literal)))))))
+        (custom_op_terminal
+          (region))))))
 
 ================================================================================
 func.func with typed block arguments

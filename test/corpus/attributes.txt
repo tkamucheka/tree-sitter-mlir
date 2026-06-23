@@ -40,16 +40,21 @@ module attributes {llvm.target_triple = "x86_64-unknown-linux-gnu"} {
 (source_file
   (operation
     (custom_operation
-      (op_id (bare_id))
+      (op_id
+        (bare_id))
       (custom_op_body
-        (custom_op_full_prefix (bare_id))
         (custom_op_full_prefix
-          (dictionary_attribute
-            (attribute_entry
-              (attr_key (bare_id) (bare_id))
-              (attribute_value
-                (builtin_attribute (string_literal))))))
-        (dictionary_attribute)))))
+          (attributes_dict_pair
+            (dictionary_attribute
+              (attribute_entry
+                (attr_key
+                  (bare_id)
+                  (bare_id))
+                (attribute_value
+                  (builtin_attribute
+                    (string_literal)))))))
+        (custom_op_terminal
+          (region))))))
 
 ================================================================================
 Dense scalar float attribute
@@ -147,20 +152,32 @@ Dense attribute inside argument parens
 
 (source_file
   (operation
-    (op_result_list (op_result (value_id (suffix_id))))
+    (op_result_list
+      (op_result
+        (value_id
+          (suffix_id))))
     (custom_operation
-      (op_id (bare_id) (bare_id) (bare_id))
+      (op_id
+        (bare_id)
+        (bare_id)
+        (bare_id))
       (custom_op_body
         (custom_op_full_prefix
           (custom_parens
             (dense_attribute
               (dense_value
                 (dense_array
-                  (dense_value (dense_float))
-                  (dense_value (dense_float)))))
-            (tensor_type
-              (tensor_dim)
-              (non_function_type (builtin_type (float_type))))))
+                  (dense_value
+                    (dense_float))
+                  (dense_value
+                    (dense_float))))
+              (non_function_type
+                (builtin_type
+                  (tensor_type
+                    (tensor_dim)
+                    (non_function_type
+                      (builtin_type
+                        (float_type)))))))))
         (custom_op_terminal
           (type_annotation
             (type_list_no_parens

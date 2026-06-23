@@ -73,8 +73,10 @@
 ; Qualifier keywords inside op bodies (linkage, storage class, etc.)
 ; bare_id inside custom_op_full_prefix — does not match op names in op_id
 ((custom_op_full_prefix (bare_id) @keyword)
- (#match? @keyword "^(attributes|constant|private|public|external|internal)$"))
+ (#match? @keyword "^(constant|private|public|external|internal)$"))
 (custom_op_full_prefix "to" @keyword.operator)
+(custom_op_full_prefix "iter_args" @keyword)
+(attributes_dict_pair "attributes" @keyword)
 ((custom_op_full_prefix (bare_id) @keyword.operator)
  (#match? @keyword.operator "^step$"))
 

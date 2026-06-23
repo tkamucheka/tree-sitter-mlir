@@ -10,7 +10,6 @@ export default grammar({
 
   conflicts: $ => [
     [$.region, $.dictionary_attribute],
-    [$.custom_op_body],
     [$.custom_operation],
     [$.custom_op_full_prefix, $.custom_op_safe_prefix],
     [$.type_alias, $.dialect_type],
@@ -22,7 +21,13 @@ export default grammar({
     [$.caret_successor, $.custom_op_full_prefix],
     [$.caret_successor, $.custom_op_safe_prefix],
     [$.custom_op_kv_brackets, $.custom_op_full_prefix],
+    [$.custom_op_body],
     [$.custom_op_body, $.custom_op_full_prefix],
+    [$.custom_op_full_prefix, $.custom_op_kv],  // bare_id '=' is ambiguous: kv-pair vs two prefixes
+    [$.custom_op_safe_prefix, $.type_annotation],  // ':' is both a safe_prefix token and start of type_annotation
+    [$.type_annotation],      // optional trailing dict ambiguous with following custom_op_terminal region
+    [$.dense_attribute],      // optional : type ambiguous with following type_annotation terminal
+    [$.dialect_attribute],    // optional angle_body ambiguous with standalone angle_body prefix
     [$.op_id, $.attr_key],
   ],
 
@@ -110,15 +115,28 @@ export default grammar({
     ),
 
     custom_op_body: $ => choice(
-      seq(repeat($.custom_op_full_prefix), $.custom_op_terminal),
+      // terminal wins over dict when {…} is ambiguous — region beats unit-attr-dict
+      prec.dynamic(3, seq(repeat($.custom_op_full_prefix), $.custom_op_terminal)),
+      // dict fallback: wins when content can't be a valid region (e.g. k=v pairs)
       prec.dynamic(2, seq(repeat($.custom_op_full_prefix), $.dictionary_attribute)),
       prec.dynamic(1, repeat1($.custom_op_safe_prefix)),
     ),
 
+    // 'attributes' always paired with its dict. In safe_prefix too so that after path-3 reduces,
+    // the next token is '{' (region) which can't be an op_id — invalidating any split parse.
+    attributes_dict_pair: $ => seq('attributes', $.dictionary_attribute),
+
     // Terminal: ends the operation cleanly
     custom_op_terminal: $ => choice(
       $.type_annotation,
-      $.region,
+      // region optionally followed by: do-region, return-type (linalg.generic), trailing-dict (scf.forall)
+      seq($.region, optional(seq('do', $.region)),
+        optional(choice($.type_annotation, $.return_type_annotation)),
+        optional($.dictionary_attribute)),
+      // type annotation THEN region: scf.reduce-style (: type { body })
+      prec.dynamic(1, seq($.type_annotation, $.region)),
+      // type annotation THEN two regions: scf.while-style (: types { body } do { body })
+      prec.dynamic(2, seq($.type_annotation, $.region, 'do', $.region)),
       $.caret_successor,  // for terminator ops: llvm.br ^bb1, llvm.cond_br %c, ^bb1, ^bb2
     ),
 
@@ -151,8 +169,17 @@ export default grammar({
       $.return_type_annotation,
       $.custom_op_kv,
       $.custom_op_kv_brackets,  // for `key: [...]` syntax (e.g. offset: [...] in reinterpret_cast)
+      $.fastmath_attribute,
+      $.typed_array_attribute,
+      $.angle_body,        // for bare keyword<...> patterns (e.g. locality<3>)
       $.bare_id,
       'to',
+      'in',
+      'do',
+      'iter_args',
+      $.attributes_dict_pair,
+      '=',               // for iter-var assignment: (%ivs) = (%lbs) to (%ubs)
+      '-',               // sign prefix for negative literals: -2, -1.0
       ',',
     ),
 
@@ -166,11 +193,24 @@ export default grammar({
       $.attribute_alias,
       $.integer_literal,
       $.float_literal,
-      $.caret_id,       // for block successor refs (e.g. llvm.br ^bb1)
+      $.value_use,        // %id — safe since % can never start an op name
+      $.caret_id,         // for block successor refs (e.g. llvm.br ^bb1)
       $.custom_parens,
       $.custom_brackets,
+      $.affine_map_attribute,  // safe: 'affine_map' is keyword-extracted
+      $.affine_set_attribute,  // safe: 'affine_set' is keyword-extracted
+      $.dense_attribute,       // safe: 'dense' is keyword-extracted
+      $.fastmath_attribute,    // safe: 'fastmath' is keyword-extracted; prevents split-parse for e.g. addf %a,%b fastmath<fast> : f32
+      $.typed_array_attribute, // safe: keyword-extracted similarly
+      $.integer_type,          // safe: keyword-extracted (e.g. i32, si64)
+      $.float_type,            // safe: keyword-extracted (e.g. f32, bf16)
+      $.index_type,            // safe: keyword-extracted
+      $.none_type,             // safe: keyword-extracted
       $.custom_op_kv,  // key = value without terminal (e.g. spar_ll.printstr punctuation = "...")
       $.return_type_annotation,  // for external func decls: llvm.func @f(i32) -> i32
+      $.attributes_dict_pair,   // 'attributes' {dict}: safe since 'attributes' is keyword-extracted; paired with dict so split parse leaves '{region}' which can't be op_id
+      ':',             // type separator (cf.switch, scf.reduce before region)
+      ',',             // argument separator (cf.assert %arg, "msg")
     ),
 
     // -> type or -> (types) — used in func signatures and scf.for return types
@@ -193,6 +233,7 @@ export default grammar({
         $.value_use,
         $.value_id_and_type,
         $.custom_parens,
+        $.custom_brackets,  // for gather_dims([1, 2]) inside parens
         $.dialect_type,   // for !type tokens, e.g. llvm.func @f(!llvm.ptr)
         $.dense_attribute,
         $.tensor_type,
@@ -211,20 +252,27 @@ export default grammar({
         ':',
         ',',
         '=',
+        '+',
+        '-',
         '...',
       )),
       ')',
     ),
 
-    // [...] in custom op: offsets, sizes, strides, reshape groups
+    // [...] in custom op: offsets, sizes, strides, reshape groups, cf.switch successor tables
     custom_brackets: $ => seq(
       '[',
       repeat(choice(
         $.value_use,
+        $.caret_id,       // for cf.switch: [default: ^bb1, 42: ^bb2]
+        $.custom_parens,  // for cf.switch: ^bb1(%x : i32)
         $.integer_literal,
         $.float_literal,
         $.bare_id,
+        ':',
         ',',
+        '+',
+        '-',
         $.custom_brackets,
       )),
       ']',
@@ -237,6 +285,7 @@ export default grammar({
         seq('to', $.type),
         seq('into', $.type),
       )),
+      optional(seq(',', $.custom_brackets)),   // e.g. cf.switch : i32, [default: ^bb1, ...]
       optional(seq('=', $.attribute_value)),  // e.g. memref.global : type = dense<...>
       optional($.dictionary_attribute),        // trailing attrs, e.g. {alignment = 64 : i64}
     ),
@@ -311,12 +360,15 @@ export default grammar({
 
     // Dimension token: `4x`, `?x`, `*x` — atomic so the lexer never splits `4x8xf32`
     tensor_dim: $ => token(choice(/[0-9]+x/, '?x', '*x')),
+    // Scalable vector dimension: `[N]x` — e.g. vector<[8]xi64>
+    scalable_dim: $ => token(/\[[0-9]+\]x/),
 
     tensor_type: $ => seq('tensor', '<', repeat($.tensor_dim), $.non_function_type,
       optional(seq(',', $.attribute_value)), '>'),
     memref_type: $ => seq('memref', '<', repeat($.tensor_dim), $.non_function_type,
       repeat(seq(',', $.attribute_value)), '>'),
-    vector_type: $ => seq('vector', '<', repeat1($.tensor_dim), $.non_function_type, '>'),
+    // repeat (not repeat1) supports 0D vectors; choice allows mixed static/scalable dims
+    vector_type: $ => seq('vector', '<', repeat(choice($.tensor_dim, $.scalable_dim)), $.non_function_type, '>'),
     complex_type: $ => seq('complex', '<', $.type, '>'),
     tuple_type: $ => seq('tuple', '<', optional($.type_list_no_parens), '>'),
 
@@ -330,6 +382,7 @@ export default grammar({
       seq('(', optional($.angle_body_content), ')'),
       seq('[', optional($.angle_body_content), ']'),
       seq('{', optional($.angle_body_content), '}'),
+      $.scalable_dim,   // [N]x — scalable vector dim
       $.tensor_dim,     // 4x, ?x, *x — longer than integer_literal so wins for 4x...
       $.integer_type,   // i32, si64, ui8 — prec(1) beats bare_id on same-length match
       $.float_type,     // f32, f64, bf16 — keyword-extracted from bare_id
@@ -369,6 +422,8 @@ export default grammar({
       $.sparse_attribute,
       $.opaque_attribute,
       $.strided_layout,
+      $.typed_array_attribute,
+      $.fastmath_attribute,
       $.array_attribute,
       $.dictionary_attribute,
       $.affine_map_attribute,
@@ -399,7 +454,8 @@ export default grammar({
     affine_set_attribute: $ => seq('affine_set', '<', $.affine_expr_content, '>'),
     // Matches affine map/set content: allows -> and >= but stops at bare >
     affine_expr_content: $ => /(->|>=|[^<>])*/,
-    dense_attribute: $ => seq('dense', '<', $.dense_value, '>'),
+    // optional `: type` covers typed dense attrs inside dicts: {foo = dense<> : tensor<0xi32>}
+    dense_attribute: $ => seq('dense', '<', optional($.dense_value), '>', optional(seq(':', $.non_function_type))),
 
     // Number tokens inside dense — atomic so signed forms like -1 and -1.0 lex cleanly
     dense_integer: $ => token(choice(/[+-]?0x[0-9a-fA-F]+/, /[+-]?[0-9]+/)),
@@ -412,6 +468,7 @@ export default grammar({
       $.bool_literal,
       '...',
       $.dense_array,
+      seq('(', commaSep1($.dense_value), ')'),  // complex/tuple: dense<(1.2, 2.3)>
     ),
 
     dense_array: $ => seq('[', optional(commaSep1($.dense_value)), ']'),
@@ -419,6 +476,16 @@ export default grammar({
     sparse_attribute: $ => seq('sparse', $.angle_body),
     opaque_attribute: $ => seq('opaque', $.angle_body),
     strided_layout: $ => seq('strided', $.angle_body),
+
+    // array<type: val, val, ...> — MLIR dense array attribute
+    typed_array_attribute: $ => seq(
+      'array', '<', $.non_function_type, ':',
+      optional(commaSep1(choice($.integer_literal, $.float_literal, $.bool_literal))),
+      '>',
+    ),
+
+    // fastmath<flag, flag, ...> — arithmetic fastmath flags
+    fastmath_attribute: $ => seq('fastmath', '<', commaSep1($.bare_id), '>'),
 
     array_attribute: $ => seq('[', optional(commaSep1($.attribute_value)), ']'),
 

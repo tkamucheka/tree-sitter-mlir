@@ -267,6 +267,10 @@ Several genuine structural ambiguities in the MLIR grammar require GLR mode. The
 
 Several dialects (e.g. `memref.reinterpret_cast`) use a `key: [values]` format for named offset/size/stride lists. This is handled with a dedicated `custom_op_kv_brackets` rule (`bare_id ':' custom_brackets`) rather than admitting `':'` as a bare token in the prefix list. Admitting a bare `':'` token would allow GLR to maintain a "`:` as prefix" parse path in parallel with "`:` as type annotation terminal," causing the error-recovery path to span across operation boundaries and produce cascading parse failures.
 
+## Acknowledgments
+
+I would like to acknowledge [artagnon/tree-sitter-mlir](https://github.com/artagnon/tree-sitter-mlir) for their source snippets and test cases used in validating this grammar.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
