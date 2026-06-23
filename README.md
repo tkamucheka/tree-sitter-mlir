@@ -14,19 +14,6 @@ The grammar covers the full MLIR textual IR, including:
 - **Regions and blocks** — entry blocks, labeled blocks with argument lists, block successors
 - **Symbol references** — `@name` with nested `::` qualification
 
-### Dialect Samples
-
-The `samples/` directory contains corpus files used for parser validation across four dialect families:
-
-| Directory   | Dialect            | Description                                       |
-|-------------|--------------------|---------------------------------------------------|
-| `llvm/`     | LLVM dialect       | Memory ops, arithmetic, control flow, function definitions |
-| `onnx/`     | ONNX dialect       | Neural network graphs lowered to MLIR             |
-| `spar_hl/`  | Spar high-level    | High-level Spar dialect ops                    |
-| `spar_ll/`  | Spar low-level     | Low-level Spar dialect ops                     |
-
-All 31 sample files parse with zero errors.
-
 ## Editor Query Files
 
 Six [tree-sitter query](https://tree-sitter.github.io/tree-sitter/using-parsers/queries/) files are provided in `queries/`. Each targets a distinct editor feature.
