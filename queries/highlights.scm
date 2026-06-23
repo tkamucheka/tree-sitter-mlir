@@ -62,12 +62,13 @@
 (symbol_ref_id) @function
 
 ; Operation names — dialect prefix gets @module, mnemonic gets @function.call
-; Structural ops: priority 101 so they beat the @function.call rule below
+; Structural ops (module, constant): placed after @function.call so later-wins ordering picks @keyword
+(custom_operation . (op_id (bare_id) @module "."))
+((custom_operation . (op_id (bare_id) @function.call .))
+ (#set! priority 90))
 ((custom_operation . (op_id . (bare_id) @keyword .))
  (#match? @keyword "^(module|constant)$")
  (#set! priority 101))
-(custom_operation . (op_id (bare_id) @module "."))
-(custom_operation . (op_id (bare_id) @function.call .))
 (generic_operation (string_literal) @string)
 
 ; Qualifier keywords inside op bodies (linkage, storage class, etc.)

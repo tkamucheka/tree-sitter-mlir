@@ -1,0 +1,17 @@
+# Build artifacts
+*.so
+*.wasm
+node_modules/
+build/
+target/
+dist/
+*.egg-info/
+
+# Generated parser files (keep src/parser.c, ignore others)
+src/grammar.json
+src/node-types.json
+src/tree_sitter/
+
+# IDE / OS
+.DS_Store
+*.swp
