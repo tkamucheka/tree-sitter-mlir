@@ -1,0 +1,2110 @@
+[
+  {
+    "type": "affine_map_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "affine_expr_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "affine_set_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "affine_expr_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "angle_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "angle_body_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "angle_body_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        },
+        {
+          "type": "angle_body_content",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "float_type",
+          "named": true
+        },
+        {
+          "type": "index_type",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "integer_type",
+          "named": true
+        },
+        {
+          "type": "none_type",
+          "named": true
+        },
+        {
+          "type": "scalable_dim",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tensor_dim",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attr_key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_alias",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_alias_def",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attr_key",
+          "named": true
+        },
+        {
+          "type": "attribute_value",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attribute_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_alias",
+          "named": true
+        },
+        {
+          "type": "builtin_attribute",
+          "named": true
+        },
+        {
+          "type": "dialect_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attributes_dict_pair",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_label",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block_arg_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "value_id_and_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_arg_list",
+          "named": true
+        },
+        {
+          "type": "caret_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bool_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "builtin_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "affine_map_attribute",
+          "named": true
+        },
+        {
+          "type": "affine_set_attribute",
+          "named": true
+        },
+        {
+          "type": "array_attribute",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "dense_attribute",
+          "named": true
+        },
+        {
+          "type": "dense_resource_attribute",
+          "named": true
+        },
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "fastmath_attribute",
+          "named": true
+        },
+        {
+          "type": "float_attribute",
+          "named": true
+        },
+        {
+          "type": "integer_attribute",
+          "named": true
+        },
+        {
+          "type": "opaque_attribute",
+          "named": true
+        },
+        {
+          "type": "sparse_attribute",
+          "named": true
+        },
+        {
+          "type": "strided_layout",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "symbol_ref_id",
+          "named": true
+        },
+        {
+          "type": "type_attribute",
+          "named": true
+        },
+        {
+          "type": "typed_array_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "builtin_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "complex_type",
+          "named": true
+        },
+        {
+          "type": "float_type",
+          "named": true
+        },
+        {
+          "type": "index_type",
+          "named": true
+        },
+        {
+          "type": "integer_type",
+          "named": true
+        },
+        {
+          "type": "memref_type",
+          "named": true
+        },
+        {
+          "type": "none_type",
+          "named": true
+        },
+        {
+          "type": "tensor_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "vector_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caret_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "suffix_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caret_successor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "caret_id",
+          "named": true
+        },
+        {
+          "type": "custom_parens",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "complex_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_brackets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "caret_id",
+          "named": true
+        },
+        {
+          "type": "custom_brackets",
+          "named": true
+        },
+        {
+          "type": "custom_parens",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "value_use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_op_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "custom_op_full_prefix",
+          "named": true
+        },
+        {
+          "type": "custom_op_safe_prefix",
+          "named": true
+        },
+        {
+          "type": "custom_op_terminal",
+          "named": true
+        },
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_op_full_prefix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "affine_map_attribute",
+          "named": true
+        },
+        {
+          "type": "affine_set_attribute",
+          "named": true
+        },
+        {
+          "type": "angle_body",
+          "named": true
+        },
+        {
+          "type": "attribute_alias",
+          "named": true
+        },
+        {
+          "type": "attributes_dict_pair",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "caret_id",
+          "named": true
+        },
+        {
+          "type": "custom_brackets",
+          "named": true
+        },
+        {
+          "type": "custom_op_kv",
+          "named": true
+        },
+        {
+          "type": "custom_op_kv_brackets",
+          "named": true
+        },
+        {
+          "type": "custom_parens",
+          "named": true
+        },
+        {
+          "type": "dense_attribute",
+          "named": true
+        },
+        {
+          "type": "dense_resource_attribute",
+          "named": true
+        },
+        {
+          "type": "dialect_type",
+          "named": true
+        },
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "fastmath_attribute",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "opaque_attribute",
+          "named": true
+        },
+        {
+          "type": "return_type_annotation",
+          "named": true
+        },
+        {
+          "type": "sparse_attribute",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "symbol_ref_id",
+          "named": true
+        },
+        {
+          "type": "typed_array_attribute",
+          "named": true
+        },
+        {
+          "type": "value_use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_op_kv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "value_use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_op_kv_brackets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "custom_brackets",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_op_safe_prefix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "affine_map_attribute",
+          "named": true
+        },
+        {
+          "type": "affine_set_attribute",
+          "named": true
+        },
+        {
+          "type": "attribute_alias",
+          "named": true
+        },
+        {
+          "type": "attributes_dict_pair",
+          "named": true
+        },
+        {
+          "type": "caret_id",
+          "named": true
+        },
+        {
+          "type": "custom_brackets",
+          "named": true
+        },
+        {
+          "type": "custom_op_kv",
+          "named": true
+        },
+        {
+          "type": "custom_parens",
+          "named": true
+        },
+        {
+          "type": "dense_attribute",
+          "named": true
+        },
+        {
+          "type": "fastmath_attribute",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "float_type",
+          "named": true
+        },
+        {
+          "type": "index_type",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "integer_type",
+          "named": true
+        },
+        {
+          "type": "none_type",
+          "named": true
+        },
+        {
+          "type": "return_type_annotation",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "symbol_ref_id",
+          "named": true
+        },
+        {
+          "type": "typed_array_attribute",
+          "named": true
+        },
+        {
+          "type": "value_use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_op_terminal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "caret_successor",
+          "named": true
+        },
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "region",
+          "named": true
+        },
+        {
+          "type": "return_type_annotation",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_operation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "custom_op_body",
+          "named": true
+        },
+        {
+          "type": "op_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "custom_parens",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "custom_brackets",
+          "named": true
+        },
+        {
+          "type": "custom_parens",
+          "named": true
+        },
+        {
+          "type": "dense_attribute",
+          "named": true
+        },
+        {
+          "type": "dialect_type",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "float_type",
+          "named": true
+        },
+        {
+          "type": "index_type",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "integer_type",
+          "named": true
+        },
+        {
+          "type": "memref_type",
+          "named": true
+        },
+        {
+          "type": "none_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "tensor_type",
+          "named": true
+        },
+        {
+          "type": "value_id_and_type",
+          "named": true
+        },
+        {
+          "type": "value_use",
+          "named": true
+        },
+        {
+          "type": "vector_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dense_array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dense_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dense_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dense_value",
+          "named": true
+        },
+        {
+          "type": "non_function_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dense_float",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "dense_resource_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dense_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "dense_array",
+          "named": true
+        },
+        {
+          "type": "dense_float",
+          "named": true
+        },
+        {
+          "type": "dense_integer",
+          "named": true
+        },
+        {
+          "type": "dense_value",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dialect_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dialect_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        },
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dictionary_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dictionary_properties",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "entry_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "operation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fastmath_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "float_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "float_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "float_literal",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "float_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "function_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "non_function_type",
+          "named": true
+        },
+        {
+          "type": "type_list_no_parens",
+          "named": true
+        },
+        {
+          "type": "type_list_parens",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "generic_operation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "dictionary_properties",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "region_list",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "successor_list",
+          "named": true
+        },
+        {
+          "type": "value_use_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "integer_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "index_type",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "integer_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "location",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "memref_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        },
+        {
+          "type": "non_function_type",
+          "named": true
+        },
+        {
+          "type": "tensor_dim",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "non_function_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "builtin_type",
+          "named": true
+        },
+        {
+          "type": "dialect_type",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "op_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "op_result",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "value_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "op_result_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "op_result",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "opaque_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "operation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "custom_operation",
+          "named": true
+        },
+        {
+          "type": "generic_operation",
+          "named": true
+        },
+        {
+          "type": "op_result_list",
+          "named": true
+        },
+        {
+          "type": "trailing_location",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "region",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "region_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "region_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "entry_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "region_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "region",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "return_type_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "non_function_type",
+          "named": true
+        },
+        {
+          "type": "type_list_parens",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_alias_def",
+          "named": true
+        },
+        {
+          "type": "operation",
+          "named": true
+        },
+        {
+          "type": "type_alias_def",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sparse_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "strided_layout",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "angle_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "successor_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "caret_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "suffix_id",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "symbol_ref_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "suffix_id",
+          "named": true
+        },
+        {
+          "type": "symbol_ref_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tensor_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        },
+        {
+          "type": "non_function_type",
+          "named": true
+        },
+        {
+          "type": "tensor_dim",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trailing_location",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "location",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type_list_no_parens",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "builtin_type",
+          "named": true
+        },
+        {
+          "type": "dialect_type",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "type_alias",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_alias",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_alias_def",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bare_id",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute_value",
+          "named": true
+        },
+        {
+          "type": "custom_brackets",
+          "named": true
+        },
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_list_no_parens",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "non_function_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_list_no_parens",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_list_parens",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typed_array_attribute",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bool_literal",
+          "named": true
+        },
+        {
+          "type": "float_literal",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "non_function_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "suffix_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value_id_and_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dictionary_attribute",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "value_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value_use",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "value_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value_use_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "value_use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "vector_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "non_function_type",
+          "named": true
+        },
+        {
+          "type": "scalable_dim",
+          "named": true
+        },
+        {
+          "type": "tensor_dim",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "...",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "affine_expr_content",
+    "named": true
+  },
+  {
+    "type": "affine_map",
+    "named": false
+  },
+  {
+    "type": "affine_set",
+    "named": false
+  },
+  {
+    "type": "array",
+    "named": false
+  },
+  {
+    "type": "attributes",
+    "named": false
+  },
+  {
+    "type": "bare_id",
+    "named": true
+  },
+  {
+    "type": "bf16",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "complex",
+    "named": false
+  },
+  {
+    "type": "dense",
+    "named": false
+  },
+  {
+    "type": "dense_integer",
+    "named": true
+  },
+  {
+    "type": "dense_resource",
+    "named": false
+  },
+  {
+    "type": "do",
+    "named": false
+  },
+  {
+    "type": "f128",
+    "named": false
+  },
+  {
+    "type": "f16",
+    "named": false
+  },
+  {
+    "type": "f32",
+    "named": false
+  },
+  {
+    "type": "f64",
+    "named": false
+  },
+  {
+    "type": "f80",
+    "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "fastmath",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "index_type",
+    "named": true
+  },
+  {
+    "type": "integer_literal",
+    "named": true
+  },
+  {
+    "type": "integer_type",
+    "named": true
+  },
+  {
+    "type": "into",
+    "named": false
+  },
+  {
+    "type": "iter_args",
+    "named": false
+  },
+  {
+    "type": "loc",
+    "named": false
+  },
+  {
+    "type": "memref",
+    "named": false
+  },
+  {
+    "type": "none_type",
+    "named": true
+  },
+  {
+    "type": "opaque",
+    "named": false
+  },
+  {
+    "type": "scalable_dim",
+    "named": true
+  },
+  {
+    "type": "sparse",
+    "named": false
+  },
+  {
+    "type": "strided",
+    "named": false
+  },
+  {
+    "type": "string_literal",
+    "named": true
+  },
+  {
+    "type": "tensor",
+    "named": false
+  },
+  {
+    "type": "tensor_dim",
+    "named": true
+  },
+  {
+    "type": "to",
+    "named": false
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "tuple",
+    "named": false
+  },
+  {
+    "type": "unit",
+    "named": false
+  },
+  {
+    "type": "vector",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]
