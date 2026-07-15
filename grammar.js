@@ -2,7 +2,7 @@
 // @ts-check
 
 export default grammar({
-  name: 'spar_mlir',
+  name: 'mlir',
 
   extras: $ => [/\s+/, $.comment],
 
