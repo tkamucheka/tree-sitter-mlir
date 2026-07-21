@@ -139,6 +139,10 @@ Corpus tests live in `test/corpus/` and highlight tests in `test/highlight/`. Se
 
 The grammar uses GLR mode to handle MLIR's open-ended custom operation syntax and several genuine structural ambiguities. See [docs/grammar-design.md](docs/grammar-design.md) for details on the two-path custom op structure and all declared GLR conflicts.
 
+Development of a hybrid grammar that combines ODS-generated upstream dialect
+rules with handwritten overrides and the existing general fallback is planned
+in [docs/ods-generation-roadmap.md](docs/ods-generation-roadmap.md).
+
 ## Acknowledgments
 
 I would like to acknowledge [artagnon/tree-sitter-mlir](https://github.com/artagnon/tree-sitter-mlir) for their source snippets and test cases used in validating this grammar.
