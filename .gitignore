@@ -7,8 +7,8 @@ target/
 dist/
 *.egg-info/
 
-# Generated parser files (keep src/parser.c, ignore others)
-src/tree_sitter/
+# Generated parser files are committed (src/parser.c and src/tree_sitter/*.h)
+# so consumers such as nvim-treesitter can build without the tree-sitter CLI.
 
 # IDE / OS
 .DS_Store
