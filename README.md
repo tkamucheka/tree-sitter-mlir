@@ -1,3 +1,5 @@
+![An MLIR operation and its tree-sitter syntax tree](.github/banner.svg)
+
 # tree-sitter-mlir
 
 A [tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for [MLIR](https://mlir.llvm.org/) (Multi-Level Intermediate Representation). The grammar targets the generic MLIR textual format as specified by the [MLIR Language Reference](https://mlir.llvm.org/docs/LangRef/), and handles the extensible custom operation format used by dialect-specific lowerings.
